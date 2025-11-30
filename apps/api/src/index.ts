@@ -1,6 +1,8 @@
 import { Hono } from "hono";
+import { factory } from "./helpers/factory";
+import { Env } from "@/types/env";
 
-const app = new Hono();
+const app: Hono<Env> = factory.createApp();
 
 app.get("/", (c) => c.text("Hello Hono!"));
 
