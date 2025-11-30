@@ -11,6 +11,8 @@
     "check": "pnpm check-types && pnpm lint && pnpm format"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.44.7",
     "hono": "^4.9.0",
     "valibot": "^1.1.0"
   },
@@ -18,7 +20,9 @@
     "@package/eslint-config": "workspace:*",
     "@package/prettier-config": "workspace:*",
     "@package/typescript-config": "workspace:*",
+    "drizzle-kit": "^0.31.7",
     "eslint": "^9.33.0",
+    "tsx": "^4.20.6",
     "typescript-eslint": "^8.39.0",
     "wrangler": "^4.28.1"
   }
