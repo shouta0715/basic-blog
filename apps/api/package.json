@@ -2,7 +2,7 @@
   "name": "api",
   "type": "module",
   "scripts": {
-    "dev": "wrangler dev --port 8000",
+    "dev": "docker compose up -d && wrangler dev --port 8000",
     "deploy": "wrangler deploy --minify",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "lint": "eslint . --max-warnings=0 ",
@@ -14,6 +14,8 @@
     "dotenv": "^17.2.3",
     "drizzle-orm": "^0.44.7",
     "hono": "^4.9.0",
+    "pg": "^8.16.3",
+    "ulid": "^3.0.1",
     "valibot": "^1.1.0"
   },
   "devDependencies": {
@@ -21,6 +23,7 @@
     "@package/eslint-config": "workspace:*",
     "@package/prettier-config": "workspace:*",
     "@package/typescript-config": "workspace:*",
+    "@types/pg": "^8.15.6",
     "drizzle-kit": "^0.31.7",
     "eslint": "^9.33.0",
     "tsx": "^4.20.6",
