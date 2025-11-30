@@ -3,9 +3,7 @@
   "name": "api",
   "main": "src/index.ts",
   "compatibility_date": "2025-05-05",
-  // "compatibility_flags": [
-  //   "nodejs_compat"
-  // ],
+  "compatibility_flags": ["nodejs_compat"]
   // "vars": {
   //   "MY_VAR": "my-variable"
   // },
@@ -21,13 +19,7 @@
   //     "bucket_name": "my-bucket"
   //   }
   // ],
-  // "d1_databases": [
-  //   {
-  //     "binding": "MY_DB",
-  //     "database_name": "my-database",
-  //     "database_id": ""
-  //   }
-  // ],
+
   // "ai": {
   //   "binding": "AI"
   // },
