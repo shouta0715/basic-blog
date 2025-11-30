@@ -1,14 +1,9 @@
-import { DrizzleD1Database } from "drizzle-orm/d1";
-
-type Bindings = {
-  DB: D1Database;
-};
-
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
 type Variables = {
-  db: DrizzleD1Database;
+  db: NodePgDatabase<Record<string, never>>;
+  DATABASE_URL: string;
 };
 
 export type Env = {
-  Bindings: Bindings;
   Variables: Variables;
 };
