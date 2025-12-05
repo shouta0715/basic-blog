@@ -10,6 +10,8 @@
     "check": "turbo run check"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "prettier": "catalog:",
     "turbo": "^2.5.5",
     "typescript": "catalog:"
