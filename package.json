@@ -16,9 +16,9 @@
     "turbo": "^2.5.5",
     "typescript": "catalog:"
   },
-  "packageManager": "pnpm@10.14.0",
+  "packageManager": "pnpm@10.24.0",
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "pnpm": {
     "overrides": {
