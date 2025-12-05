@@ -6,13 +6,12 @@
     "deploy": "wrangler deploy --minify",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "seed": "tsx src/db/seed.ts",
-    "lint": "eslint . --max-warnings=0 ",
-    "check-types": "tsc --noEmit",
     "migrate": "drizzle-kit migrate",
     "generate": "drizzle-kit generate",
     "studio": "drizzle-kit studio",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check": "pnpm check-types && pnpm lint && pnpm format"
+    "lint:eslint": "eslint . --max-warnings=0",
+    "lint:ts": "tsc --noEmit",
+    "lint:format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "dependencies": {
     "dotenv": "^17.2.3",

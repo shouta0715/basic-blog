@@ -7,17 +7,13 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "check-types": {
-      "dependsOn": ["^check-types"]
-    },
-    "format": {
-      "dependsOn": ["^format"]
+    "lint:eslint": {},
+    "lint:ts": {},
+    "lint:format": {
+      "cache": false
     },
     "check": {
-      "dependsOn": ["^check"]
+      "dependsOn": ["lint:ts", "lint:eslint", "lint:format"]
     },
     "dev": {
       "cache": false,

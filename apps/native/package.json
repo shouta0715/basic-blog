@@ -7,7 +7,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint:eslint": "eslint . --max-warnings=0",
+    "lint:ts": "tsc --noEmit",
+    "lint:format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
