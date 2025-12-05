@@ -5,10 +5,9 @@ packages:
 nodeLinker: hoisted
 
 onlyBuiltDependencies:
-  - '@swc/core'
-  - '@tailwindcss/oxide'
+  - "@swc/core"
+  - "@tailwindcss/oxide"
   - esbuild
-  - lefthook
   - sharp
   - unrs-resolver
   - workerd
