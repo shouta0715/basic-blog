@@ -4,10 +4,30 @@ packages:
 
 nodeLinker: hoisted
 
+minimumReleaseAge: 1440
+
 onlyBuiltDependencies:
-  - "@swc/core"
   - "@tailwindcss/oxide"
   - esbuild
-  - sharp
-  - unrs-resolver
   - workerd
+
+catalog:
+  valibot: ^1.2.0
+
+  # ===========================================
+  # ESLint関連パッケージ
+  # ===========================================
+  eslint: ^9.33.0
+  typescript-eslint: ^8.47.0
+  "@typescript-eslint/parser": ^8.47.0
+
+  # ===========================================
+  # Prettier関連パッケージ
+  # ===========================================
+  prettier: ^3.7.3
+  prettier-plugin-tailwindcss: ^0.6.14
+
+  # ===========================================
+  # TypeScript関連パッケージ
+  # ===========================================
+  typescript: ~5.9.2

@@ -25,6 +25,7 @@ const config = defineConfig(...tsConfig, ...reactConfig, {
       },
     ],
   },
+  ignores: ["**/next-env.d.ts", "**/.next/**", "**/.vercel/**"],
 });
 
 export default config;
