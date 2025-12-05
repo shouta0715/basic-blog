@@ -31,8 +31,8 @@ const config = defineConfig(
       "**/dist/**",
       "**/build/**",
       "**/public/**",
-      "**/.next/**",
-      "**/.turbo/**",
+      "**/.*/**",
+      "**/*.d.ts",
     ],
   },
   {
