@@ -40,7 +40,7 @@
     "react-native-web": "~0.21.0",
     "react-native-worklets": "0.5.1",
     "tailwind-merge": "^3.3.1",
-    "valibot": "^1.1.0"
+    "valibot": "catalog:"
   },
   "devDependencies": {
     "@package/eslint-config": "workspace:*",
@@ -48,11 +48,11 @@
     "@package/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.11",
     "@types/react": "~19.1.0",
-    "eslint": "^9.33.0",
+    "eslint": "catalog:",
     "postcss": "^8.5.6",
-    "prettier": "^3.6.2",
+    "prettier": "catalog:",
     "tailwindcss": "^4.1.17",
-    "typescript": "~5.9.2"
+    "typescript": "catalog:"
   },
   "private": true
 }
