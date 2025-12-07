@@ -13,6 +13,6 @@ app.use("*", sessionMiddleware);
 
 app.get("/", (c) => c.text("Hello Hono!"));
 
-app.on(["POST", "GET"], "/auth/*", (c) => auth.handler(c.req.raw));
+app.on(["POST", "GET"], "/api/auth/*", (c) => auth.handler(c.req.raw));
 
 export default app;
