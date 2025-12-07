@@ -5,6 +5,5 @@ type Variables = {
 } & Cloudflare.Env;
 
 export type Env = {
-  Bindings: CloudflareBindings;
   Variables: Variables;
 };
