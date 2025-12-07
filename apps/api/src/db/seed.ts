@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
+import { ulid } from "ulid";
 import * as schemas from "./schemas";
 
 const { user, articles, tags, articleTags, articleLikes } = schemas;
@@ -29,18 +30,21 @@ async function seed() {
       .insert(user)
       .values([
         {
+          id: ulid(),
           name: "Alice Johnson",
           email: "alice@example.com",
           emailVerified: true,
           image: "https://i.pravatar.cc/150?img=1",
         },
         {
+          id: ulid(),
           name: "Bob Smith",
           email: "bob@example.com",
           emailVerified: true,
           image: "https://i.pravatar.cc/150?img=2",
         },
         {
+          id: ulid(),
           name: "Charlie Brown",
           email: "charlie@example.com",
           emailVerified: false,
