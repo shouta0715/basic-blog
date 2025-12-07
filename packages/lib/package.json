@@ -1,0 +1,26 @@
+{
+  "name": "@package/lib",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint:eslint": "eslint . --max-warnings=0",
+    "lint:ts": "tsc --noEmit",
+    "lint:format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "valibot": "catalog:"
+  },
+  "devDependencies": {
+    "@package/eslint-config": "workspace:*",
+    "@package/prettier-config": "workspace:*",
+    "@package/typescript-config": "workspace:*",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:"
+  }
+}

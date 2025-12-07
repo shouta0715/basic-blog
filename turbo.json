@@ -12,9 +12,6 @@
     "lint:format": {
       "cache": false
     },
-    "check": {
-      "dependsOn": ["lint:ts", "lint:eslint", "lint:format"]
-    },
     "dev": {
       "cache": false,
       "persistent": true
