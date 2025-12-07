@@ -12,11 +12,14 @@
     "lint:format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "dependencies": {
+    "@better-auth/expo": "^1.4.5",
     "@expo/vector-icons": "^15.0.3",
+    "@package/lib": "workspace:*",
     "@react-navigation/bottom-tabs": "^7.4.0",
     "@react-navigation/elements": "^2.6.3",
     "@react-navigation/native": "^7.1.8",
     "@t3-oss/env-core": "^0.13.8",
+    "better-auth": "catalog:",
     "clsx": "^2.1.1",
     "expo": "~54.0.27",
     "expo-constants": "~18.0.11",
@@ -25,6 +28,7 @@
     "expo-image": "~3.0.11",
     "expo-linking": "~8.0.10",
     "expo-router": "~6.0.17",
+    "expo-secure-store": "~15.0.8",
     "expo-splash-screen": "~31.0.12",
     "expo-status-bar": "~3.0.9",
     "expo-symbols": "~1.0.8",
@@ -42,9 +46,7 @@
     "react-native-web": "~0.21.0",
     "react-native-worklets": "0.5.1",
     "tailwind-merge": "^3.3.1",
-    "valibot": "catalog:",
-    "better-auth": "catalog:",
-    "@package/lib": "workspace:*"
+    "valibot": "catalog:"
   },
   "devDependencies": {
     "@package/eslint-config": "workspace:*",
