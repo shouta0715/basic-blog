@@ -1,10 +1,9 @@
-import { NodePgDatabase } from "drizzle-orm/node-postgres";
-import * as schemas from "@/db/schemas";
+import { auth } from "@/lib/auth";
 type Variables = {
-  db: NodePgDatabase<typeof schemas>;
+  user: typeof auth.$Infer.Session.user;
+  session: typeof auth.$Infer.Session.session;
 } & Cloudflare.Env;
 
 export type Env = {
-  Bindings: CloudflareBindings;
   Variables: Variables;
 };

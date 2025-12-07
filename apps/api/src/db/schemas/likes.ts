@@ -6,7 +6,7 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { articles } from "./articles";
-import { users } from "./users";
+import { user } from "./users";
 
 export const articleLikes = pgTable(
   "article_likes",
@@ -16,7 +16,7 @@ export const articleLikes = pgTable(
       .references(() => articles.id, { onDelete: "cascade" }),
     userId: text("user_id")
       .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
+      .references(() => user.id, { onDelete: "cascade" }),
     createdAt: timestamp("created_at", { mode: "string" })
       .notNull()
       .$defaultFn(() => new Date().toISOString()),
