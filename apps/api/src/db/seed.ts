@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import * as schemas from "./schemas";
 
-const { users, articles, tags, articleTags, articleLikes } = schemas;
+const { user, articles, tags, articleTags, articleLikes } = schemas;
 
 async function seed() {
   const pool = new Pool({
@@ -21,36 +21,30 @@ async function seed() {
     await db.delete(articleTags);
     await db.delete(articles);
     await db.delete(tags);
-    await db.delete(users);
+    await db.delete(user);
 
     // Seed Users
     console.info("👤 Creating users...");
     const createdUsers = await db
-      .insert(users)
+      .insert(user)
       .values([
         {
+          name: "Alice Johnson",
           email: "alice@example.com",
-          username: "alice",
-          displayName: "Alice Johnson",
-          bio: "フロントエンド開発が好きです。React と TypeScript を使っています。",
-          avatarUrl: "https://i.pravatar.cc/150?img=1",
-          passwordHash: "hashed_password_1",
+          emailVerified: true,
+          image: "https://i.pravatar.cc/150?img=1",
         },
         {
+          name: "Bob Smith",
           email: "bob@example.com",
-          username: "bob",
-          displayName: "Bob Smith",
-          bio: "バックエンドエンジニアです。Node.js と PostgreSQL が得意です。",
-          avatarUrl: "https://i.pravatar.cc/150?img=2",
-          passwordHash: "hashed_password_2",
+          emailVerified: true,
+          image: "https://i.pravatar.cc/150?img=2",
         },
         {
+          name: "Charlie Brown",
           email: "charlie@example.com",
-          username: "charlie",
-          displayName: "Charlie Brown",
-          bio: "フルスタック開発者。新しい技術を学ぶことが好きです。",
-          avatarUrl: "https://i.pravatar.cc/150?img=3",
-          passwordHash: "hashed_password_3",
+          emailVerified: false,
+          image: "https://i.pravatar.cc/150?img=3",
         },
       ])
       .returning();

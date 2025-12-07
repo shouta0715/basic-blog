@@ -14,6 +14,9 @@ export const user = pgTable("user", {
     .notNull(),
 });
 
+export type User = typeof user.$inferSelect;
+export type NewUser = typeof user.$inferInsert;
+
 export const session = pgTable(
   "session",
   {
