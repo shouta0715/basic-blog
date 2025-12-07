@@ -6,7 +6,7 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 import { ulid } from "ulid";
-import { users } from "./users";
+import { user } from "./users";
 
 export const articles = pgTable(
   "articles",
@@ -20,7 +20,7 @@ export const articles = pgTable(
     coverImageUrl: text("cover_image_url"),
     authorId: text("author_id")
       .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
+      .references(() => user.id, { onDelete: "cascade" }),
     status: text("status")
       .$type<"draft" | "published" | "archived">()
       .notNull()
