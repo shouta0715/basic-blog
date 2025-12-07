@@ -25,6 +25,6 @@ const sessionMiddleware = createMiddleware<Env>(async (c, next) => {
   await next();
 });
 
-const sessionMiddlewareWithExcept = except(["/auth/*"], sessionMiddleware);
+const sessionMiddlewareWithExcept = except(["/api/auth/*"], sessionMiddleware);
 
 export { corsMiddleware, sessionMiddlewareWithExcept as sessionMiddleware };

@@ -20,7 +20,8 @@
     "pg": "^8.16.3",
     "ulid": "^3.0.1",
     "valibot": "catalog:",
-    "better-auth": "catalog:"
+    "better-auth": "catalog:",
+    "@package/lib": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20251128.0",
