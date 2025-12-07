@@ -1,9 +1,18 @@
 import { Hono } from "hono";
-import { factory } from "./helpers/factory";
+import { auth } from "./lib/auth";
+import {
+  corsMiddleware,
+  sessionMiddleware,
+} from "./middleware/auth/auth-middleware";
 import { Env } from "@/types/env";
 
-const app: Hono<Env> = factory.createApp();
+const app = new Hono<Env>();
+
+app.use("*", corsMiddleware);
+app.use("*", sessionMiddleware);
 
 app.get("/", (c) => c.text("Hello Hono!"));
+
+app.on(["POST", "GET"], "/auth/*", (c) => auth.handler(c.req.raw));
 
 export default app;
