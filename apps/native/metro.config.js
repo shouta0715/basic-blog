@@ -1,12 +1,10 @@
 const { getDefaultConfig } = require("expo/metro-config");
-const { withNativewind } = require("nativewind/metro");
+const { withUniwindConfig } = require("uniwind/metro");
 
 /** @type {import('expo/metro-config').MetroConfig} */
 const config = getDefaultConfig(__dirname);
 
-/**
- * @see https://www.better-auth.com/docs/integrations/expo#configure-metro-bundler
- */
-config.resolver.unstable_enablePackageExports = true;
-
-module.exports = withNativewind(config);
+module.exports = withUniwindConfig(config, {
+  cssEntryFile: "./src/tailwind.css",
+  dtsFile: "./uniwind-types.d.ts",
+});
