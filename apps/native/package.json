@@ -35,7 +35,6 @@
     "expo-symbols": "~1.0.8",
     "expo-system-ui": "~6.0.9",
     "expo-web-browser": "~15.0.10",
-    "nativewind": "5.0.0-preview.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.68.0",
@@ -48,18 +47,17 @@
     "react-native-web": "~0.21.0",
     "react-native-worklets": "0.5.1",
     "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4.1.17",
+    "uniwind": "^1.2.2",
     "valibot": "catalog:"
   },
   "devDependencies": {
     "@package/eslint-config": "workspace:*",
     "@package/prettier-config": "workspace:*",
     "@package/typescript-config": "workspace:*",
-    "@tailwindcss/postcss": "^4.1.11",
     "@types/react": "~19.1.0",
     "eslint": "catalog:",
-    "postcss": "^8.5.6",
     "prettier": "catalog:",
-    "tailwindcss": "^4.1.17",
     "typescript": "catalog:"
   },
   "private": true

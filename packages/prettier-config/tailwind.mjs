@@ -9,6 +9,7 @@ const withConfig = (cssPath) => {
   return {
     ...base,
     plugins: ["prettier-plugin-tailwindcss"],
+    tailwindFunctions: ["cn", "clsx"],
     tailwindStylesheet: cssPath,
   };
 };
