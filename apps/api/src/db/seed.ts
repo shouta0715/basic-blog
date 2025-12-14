@@ -3,12 +3,13 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { ulid } from "ulid";
 import * as schemas from "./schemas";
+import { env } from "@/env";
 
 const { user, articles, tags, articleTags, articleLikes } = schemas;
 
 async function seed() {
   const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
+    connectionString: env.DATABASE_URL,
   });
 
   const db = drizzle({ client: pool, schema: schemas });
