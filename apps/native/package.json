@@ -59,6 +59,7 @@
     "@package/prettier-config": "workspace:*",
     "@package/typescript-config": "workspace:*",
     "@types/react": "~19.1.0",
+    "@types/node": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "prettier-plugin-tailwindcss": "catalog:",

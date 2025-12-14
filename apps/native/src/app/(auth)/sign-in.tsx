@@ -1,5 +1,6 @@
 import { Redirect, useRouter } from "expo-router";
-import { Pressable, Text, View } from "react-native";
+import { Button } from "heroui-native";
+import { Text, View } from "react-native";
 import { useSession } from "@/lib/auth-client";
 
 export default function SignIn() {
@@ -13,12 +14,13 @@ export default function SignIn() {
   return (
     <View className="flex-1 items-center justify-center">
       <Text>Sign In</Text>
-      <Pressable
-        className="rounded-md border border-gray-100 p-2"
+      <Button
+        size="sm"
+        variant="danger"
         onPress={() => router.push("/sign-up")}
       >
-        <Text>Sign Up</Text>
-      </Pressable>
+        <Button.Label>Sign Up</Button.Label>
+      </Button>
     </View>
   );
 }

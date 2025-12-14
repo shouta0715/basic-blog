@@ -1,6 +1,5 @@
 import { Redirect } from "expo-router";
-import { Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Text, View } from "react-native";
 import { useSession } from "@/lib/auth-client";
 
 export default function SignUp() {
@@ -11,8 +10,8 @@ export default function SignUp() {
   }
 
   return (
-    <SafeAreaView>
-      <Text>Sign In</Text>
-    </SafeAreaView>
+    <View className="flex-1 px-4">
+      <Text>Sign Up</Text>
+    </View>
   );
 }
