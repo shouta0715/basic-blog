@@ -1,6 +1,6 @@
 import { expoClient } from "@better-auth/expo/client";
 import { createAuthClient } from "better-auth/react";
-import SecureStore from "expo-secure-store";
+import * as SecureStore from "expo-secure-store";
 import { env } from "@/env/client";
 
 const betterAuthClient = createAuthClient({
@@ -15,4 +15,5 @@ const betterAuthClient = createAuthClient({
 });
 
 export const authClient = betterAuthClient;
+
 export const { useSession } = betterAuthClient;
