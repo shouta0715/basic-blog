@@ -61,6 +61,7 @@
     "@types/react": "~19.1.0",
     "eslint": "catalog:",
     "prettier": "catalog:",
+    "prettier-plugin-tailwindcss": "catalog:",
     "typescript": "catalog:"
   },
   "private": true
