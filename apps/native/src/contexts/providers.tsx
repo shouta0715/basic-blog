@@ -1,3 +1,6 @@
+import { HeroUINativeProvider } from "heroui-native";
+import React from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaListener } from "react-native-safe-area-context";
 import { Uniwind } from "uniwind";
 import { SplashScreenController } from "./splash-screen-controller";
@@ -8,6 +11,10 @@ export const Providers = ({ children }: { children: React.ReactNode }) => (
       Uniwind.updateInsets(insets);
     }}
   >
-    <SplashScreenController>{children}</SplashScreenController>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <HeroUINativeProvider>
+        <SplashScreenController>{children}</SplashScreenController>
+      </HeroUINativeProvider>
+    </GestureHandlerRootView>
   </SafeAreaListener>
 );
