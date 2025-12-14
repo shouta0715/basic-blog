@@ -7,7 +7,7 @@
     "./base": "./base.mjs",
     "./tailwind": "./tailwind.mjs"
   },
-  "peerDependencies": {
+  "devDependencies": {
     "prettier": "catalog:",
     "prettier-plugin-tailwindcss": "catalog:"
   }

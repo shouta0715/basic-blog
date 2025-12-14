@@ -2,8 +2,6 @@ packages:
   - apps/*
   - packages/*
 
-nodeLinker: hoisted
-
 minimumReleaseAge: 1440
 
 onlyBuiltDependencies:
@@ -31,6 +29,7 @@ catalog:
   # TypeScript関連パッケージ
   # ===========================================
   typescript: ~5.9.2
+  "@types/node": ~22.13.10
 
   # ===========================================
   # 認証関連パッケージ
