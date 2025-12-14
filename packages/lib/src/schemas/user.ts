@@ -1,8 +1,11 @@
 import * as v from "valibot";
 
-const useSignUpSchema = v.pipe(
+const signUpSchema = v.pipe(
   v.object({
-    name: v.string(),
+    name: v.pipe(
+      v.string(),
+      v.minLength(1, "名前は1文字以上で入力してください"),
+    ),
     email: v.pipe(
       v.string(),
       v.email("正しいメールアドレスを入力してください"),
@@ -15,7 +18,6 @@ const useSignUpSchema = v.pipe(
       v.string(),
       v.minLength(8, "パスワードは8文字以上で入力してください"),
     ),
-    image: v.optional(v.pipe(v.string(), v.url("正しいURLを入力してください"))),
   }),
   v.forward(
     v.partialCheck(
@@ -35,11 +37,11 @@ const signInSchema = v.object({
   ),
 });
 
-type UserSignUpSchema = v.InferInput<typeof useSignUpSchema>;
+type UserSignUpSchema = v.InferInput<typeof signUpSchema>;
 type UserSignInSchema = v.InferInput<typeof signInSchema>;
 
 const userSchema = {
-  signUp: useSignUpSchema,
+  signUp: signUpSchema,
   signIn: signInSchema,
 };
 
