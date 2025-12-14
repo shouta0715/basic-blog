@@ -1,18 +1,24 @@
-import { Redirect } from "expo-router";
-import { Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Redirect, useRouter } from "expo-router";
+import { Pressable, Text, View } from "react-native";
 import { useSession } from "@/lib/auth-client";
 
 export default function SignIn() {
   const { data: session } = useSession();
+  const router = useRouter();
 
   if (session) {
     return <Redirect href="/" />;
   }
 
   return (
-    <SafeAreaView>
+    <View className="flex-1 items-center justify-center">
       <Text>Sign In</Text>
-    </SafeAreaView>
+      <Pressable
+        className="rounded-md border border-gray-100 p-2"
+        onPress={() => router.push("/sign-up")}
+      >
+        <Text>Sign Up</Text>
+      </Pressable>
+    </View>
   );
 }
