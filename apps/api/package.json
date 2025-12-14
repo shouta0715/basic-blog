@@ -2,9 +2,9 @@
   "name": "api",
   "type": "module",
   "scripts": {
-    "dev": "docker compose up -d && wrangler dev --port 8000",
-    "deploy": "wrangler deploy --minify",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "dev": "docker compose up -d && tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "seed": "tsx src/db/seed.ts",
     "migrate": "drizzle-kit migrate",
     "generate": "drizzle-kit generate",
@@ -14,25 +14,26 @@
     "lint:format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "dependencies": {
+    "@hono/node-server": "^1.19.7",
+    "@package/lib": "workspace:*",
+    "@t3-oss/env-core": "^0.13.8",
+    "better-auth": "catalog:",
     "dotenv": "^17.2.3",
     "drizzle-orm": "^0.44.7",
     "hono": "^4.9.0",
     "pg": "^8.16.3",
     "ulid": "^3.0.1",
-    "valibot": "catalog:",
-    "better-auth": "catalog:",
-    "@package/lib": "workspace:*"
+    "valibot": "catalog:"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20251128.0",
     "@package/eslint-config": "workspace:*",
     "@package/prettier-config": "workspace:*",
     "@package/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
     "@types/pg": "^8.15.6",
     "drizzle-kit": "^0.31.7",
     "eslint": "catalog:",
     "tsx": "^4.20.6",
-    "typescript-eslint": "catalog:",
-    "wrangler": "^4.28.1"
+    "typescript-eslint": "catalog:"
   }
 }

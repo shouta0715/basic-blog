@@ -1,12 +1,13 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "./db";
+import { env } from "@/env";
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
   trustedOrigins: [
-    process.env.CLIENT_URL,
+    env.CLIENT_URL,
     ...(process.env.NODE_ENV === "development"
       ? [
           "exp://*/*", // Trust all Expo development URLs
@@ -19,5 +20,7 @@ export const auth = betterAuth({
   ],
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: false,
   },
+  advanced: { disableOriginCheck: true },
 });
