@@ -17,7 +17,7 @@ export default function Layout() {
         ),
       }}
     >
-      <Stack.Screen name="sign-in" options={{ animation: "none" }} />
+      <Stack.Screen name="sign-in" options={{ animation: "none", title: "" }} />
       <Stack.Screen
         name="sign-up"
         options={{
