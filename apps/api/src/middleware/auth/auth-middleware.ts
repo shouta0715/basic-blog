@@ -5,9 +5,9 @@ import { auth } from "@/lib/auth";
 import { Env } from "@/types/env";
 
 const corsMiddleware = cors({
-  origin: "http://localhost:3000", // replace with your origin
+  origin: "http://localhost:3000",
   allowHeaders: ["Content-Type", "Authorization"],
-  allowMethods: ["POST", "GET", "OPTIONS"],
+  allowMethods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   exposeHeaders: ["Content-Length"],
   maxAge: 600,
   credentials: true,

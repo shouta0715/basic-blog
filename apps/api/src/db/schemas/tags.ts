@@ -6,7 +6,6 @@ import {
   timestamp,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
-import { ulid } from "ulid";
 import { articles } from "./articles";
 
 export const tags = pgTable(
@@ -14,7 +13,7 @@ export const tags = pgTable(
   {
     id: text("id")
       .primaryKey()
-      .$defaultFn(() => ulid()),
+      .$defaultFn(() => crypto.randomUUID()),
     name: text("name").notNull(),
     slug: text("slug").notNull(),
     createdAt: timestamp("created_at", { mode: "string" })
