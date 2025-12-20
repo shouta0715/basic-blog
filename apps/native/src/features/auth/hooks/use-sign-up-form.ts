@@ -33,6 +33,7 @@ export function useSignUpForm() {
   return {
     form,
     handleSubmit,
+    isValid: form.formState.isValid,
     status,
     isPasswordVisible,
     togglePasswordVisibility,

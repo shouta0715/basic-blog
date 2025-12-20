@@ -7,7 +7,7 @@ import { LinearTransition } from "react-native-reanimated";
 import { match } from "ts-pattern";
 import { useSignUpForm } from "../hooks/use-sign-up-form";
 import { PasswordToggleButton } from "./password-toggle-button";
-import { Form, FormItem } from "@/components/form/form-filed";
+import { Form, FormController } from "@/components/form/form-filed";
 import {
   TextFieldErrorMessage,
   TextFormInput,
@@ -21,6 +21,7 @@ export function SignUpForm() {
   const {
     form,
     handleSubmit,
+    isValid,
     isPasswordVisible,
     togglePasswordVisibility,
     status,
@@ -36,7 +37,7 @@ export function SignUpForm() {
   return (
     <View className="gap-4">
       <Form {...form}>
-        <FormItem
+        <FormController
           control={form.control}
           name="name"
           render={({ field }) => (
@@ -60,7 +61,7 @@ export function SignUpForm() {
           )}
         />
 
-        <FormItem
+        <FormController
           control={form.control}
           name="email"
           render={({ field }) => (
@@ -84,7 +85,7 @@ export function SignUpForm() {
           )}
         />
 
-        <FormItem
+        <FormController
           control={form.control}
           name="password"
           render={({ field }) => (
@@ -117,7 +118,7 @@ export function SignUpForm() {
           )}
         />
 
-        <FormItem
+        <FormController
           control={form.control}
           name="confirmPassword"
           render={({ field }) => (
@@ -156,9 +157,11 @@ export function SignUpForm() {
             )}
             isDisabled={isPending || status === "success"}
             isIconOnly={isPending}
-            layout={LinearTransition.springify()
-              .dampingRatio(1.5)
-              .duration(200)}
+            layout={
+              isValid
+                ? LinearTransition.springify().dampingRatio(1.5).duration(200)
+                : undefined
+            }
             onPress={handleSubmit}
           >
             {match(status)

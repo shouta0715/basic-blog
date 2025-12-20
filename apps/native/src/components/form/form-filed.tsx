@@ -49,7 +49,7 @@ const useFormField = () => {
   };
 };
 
-const FormItem = <
+const FormController = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
@@ -62,4 +62,4 @@ const FormItem = <
 
 const Form = FormProvider;
 
-export { Form, FormItem, useFormField };
+export { Form, FormController, useFormField };
