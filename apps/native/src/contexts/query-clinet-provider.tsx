@@ -1,7 +1,7 @@
 import { focusManager, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { AppState, AppStateStatus, Platform } from "react-native";
-import { queryClient } from "@/lib/queyr-client";
+import { queryClient } from "@/lib/query-client";
 
 type Props = {
   children: React.ReactNode;
