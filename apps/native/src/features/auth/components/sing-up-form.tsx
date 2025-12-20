@@ -1,9 +1,11 @@
 import { UserSignUpSchema } from "@package/lib";
-import { Button } from "heroui-native";
+import { Button, ButtonVariant, Spinner, useThemeColor } from "heroui-native";
 import React from "react";
 import { FieldPath } from "react-hook-form";
 import { View } from "react-native";
-import { useSignUpForm } from "../hooks/use-sing-up-form";
+import { LinearTransition } from "react-native-reanimated";
+import { match } from "ts-pattern";
+import { useSignUpForm } from "../hooks/use-sign-up-form";
 import { PasswordToggleButton } from "./password-toggle-button";
 import { Form, FormItem } from "@/components/form/form-filed";
 import {
@@ -13,13 +15,24 @@ import {
   TextFormItem,
   TextFormLabel,
 } from "@/components/form/text-form-field";
+import { cn } from "@/utils/cn";
 
 export function SignUpForm() {
-  const { form, handleSubmit, isPasswordVisible, togglePasswordVisibility } =
-    useSignUpForm();
+  const {
+    form,
+    handleSubmit,
+    isPasswordVisible,
+    togglePasswordVisibility,
+    status,
+    resetError,
+  } = useSignUpForm();
+
+  const spinnerColor = useThemeColor("accent-foreground");
 
   const onFocusNextInput = (nextInputName: FieldPath<UserSignUpSchema>) => () =>
     form.setFocus(nextInputName);
+
+  const isPending = status === "pending";
 
   return (
     <View className="gap-4">
@@ -136,9 +149,44 @@ export function SignUpForm() {
           )}
         />
 
-        <Button className="mt-6" onPress={handleSubmit}>
-          <Button.Label className="font-bold">登録する</Button.Label>
-        </Button>
+        <View className="mt-6 items-center justify-center">
+          <Button
+            className={cn(
+              "transition-colors disabled:opacity-100",
+              !isPending && "w-full",
+            )}
+            isDisabled={isPending || status === "success"}
+            isIconOnly={isPending}
+            layout={LinearTransition.springify()
+              .dampingRatio(1.5)
+              .duration(200)}
+            variant={match<typeof status, ButtonVariant>(status)
+              .with("error", () => "danger")
+              .otherwise(() => "primary")}
+            onPress={status === "error" ? resetError : handleSubmit}
+          >
+            {match(status)
+              .with("pending", () => (
+                <Spinner color={spinnerColor}>
+                  <Spinner.Indicator animation={{ rotation: { speed: 2 } }} />
+                </Spinner>
+              ))
+              .with("error", () => (
+                <Button.Label className="font-bold">
+                  エラーが発生しました
+                </Button.Label>
+              ))
+              .with("idle", () => (
+                <Button.Label className="font-bold">登録する</Button.Label>
+              ))
+              .with("success", () => (
+                <Button.Label className="font-bold">
+                  登録が完了しました
+                </Button.Label>
+              ))
+              .exhaustive()}
+          </Button>
+        </View>
       </Form>
     </View>
   );
