@@ -76,7 +76,7 @@ function TextFieldErrorMessage({
 
   return (
     <TextField.ErrorMessage
-      className={cn("text-destructive text-sm", className)}
+      className={cn("text-sm", className)}
       nativeID={formMessageId}
       {...props}
     >
