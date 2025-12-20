@@ -3,12 +3,12 @@ import { userSchema } from "@package/lib";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSignUpMutation } from "../api/use-sign-up-mutation";
+import { useSignInMutation } from "../api/use-sign-in-mutation";
 import { useCommonAuthError } from "./use-common-auth-error";
 import { useToast } from "@/components/toast";
 import { notificationHaptics } from "@/lib/haptics";
 
-export function useSignUpForm() {
+export function useSignInForm() {
   const { handleAuthError } = useCommonAuthError();
   const { toast } = useToast();
   const router = useRouter();
@@ -16,34 +16,24 @@ export function useSignUpForm() {
   const onSuccess = () => {
     notificationHaptics.success();
     toast.success({
-      label: "登録が完了しました",
+      label: "ログインしました",
     });
     router.push("/");
   };
 
-  const { mutate, status } = useSignUpMutation({
+  const { mutate, status } = useSignInMutation({
     onSuccess,
     onError: handleAuthError,
   });
-  const [isPasswordVisible, setIsPasswordVisible] = useState({
-    password: false,
-    confirmPassword: false,
-  });
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const togglePasswordVisibility =
-    (field: "password" | "confirmPassword") => () =>
-      setIsPasswordVisible((prev) => ({
-        ...prev,
-        [field]: !prev[field],
-      }));
+  const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev);
 
   const form = useForm({
-    resolver: valibotResolver(userSchema.signUp),
+    resolver: valibotResolver(userSchema.signIn),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
-      confirmPassword: "",
     },
   });
 
