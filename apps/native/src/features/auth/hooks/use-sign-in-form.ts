@@ -2,7 +2,7 @@ import { valibotResolver } from "@hookform/resolvers/valibot";
 import { userSchema } from "@package/lib";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSignInMutation } from "./use-sign-in-mutation";
+import { useSignInMutation } from "../api/use-sign-in-mutation";
 
 export function useSignInForm() {
   const { mutate, status } = useSignInMutation();
