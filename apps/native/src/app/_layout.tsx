@@ -1,4 +1,5 @@
 import "@/tailwind.css";
+import "react-native-random-uuid";
 
 import { Stack } from "expo-router";
 import { Providers } from "@/contexts/providers";
