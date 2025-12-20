@@ -32,7 +32,6 @@ export const articles = pgTable(
       .notNull()
       .$defaultFn(() => new Date().toISOString())
       .$onUpdateFn(() => new Date().toISOString()),
-    deletedAt: timestamp("deleted_at", { mode: "string" }),
   },
   (table) => [
     uniqueIndex("articles_slug_idx").on(table.slug),

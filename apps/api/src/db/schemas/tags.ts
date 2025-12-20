@@ -19,7 +19,6 @@ export const tags = pgTable(
     createdAt: timestamp("created_at", { mode: "string" })
       .notNull()
       .$defaultFn(() => new Date().toISOString()),
-    deletedAt: timestamp("deleted_at", { mode: "string" }),
   },
   (table) => [
     uniqueIndex("tags_slug_idx").on(table.slug),
@@ -43,7 +42,6 @@ export const articleTags = pgTable(
     createdAt: timestamp("created_at", { mode: "string" })
       .notNull()
       .$defaultFn(() => new Date().toISOString()),
-    deletedAt: timestamp("deleted_at", { mode: "string" }),
   },
   (table) => [
     uniqueIndex("article_tags_article_tag_idx").on(

@@ -1,6 +1,6 @@
 import { sValidator } from "@hono/standard-validator";
 import { articleSchema } from "@package/lib";
-import { eq, isNull } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import * as v from "valibot";
@@ -11,9 +11,7 @@ import { Env } from "@/types/env";
 const app = new Hono<Env>();
 
 app.get("/", async (c) => {
-  const result = await db.query.articles.findMany({
-    where: isNull(articles.deletedAt),
-  });
+  const result = await db.query.articles.findMany();
 
   return c.json(result);
 });
@@ -28,7 +26,7 @@ app.get(
       where: eq(articles.id, id),
     });
 
-    if (!article || article.deletedAt) {
+    if (!article) {
       throw new HTTPException(404, { message: "記事が見つかりません" });
     }
 
@@ -55,14 +53,12 @@ app.post("/", sValidator("json", articleSchema), async (c) => {
       updatedAt: new Date().toISOString(),
       publishedAt:
         data.status === "published" ? new Date().toISOString() : null,
-      deletedAt: null,
     })
     .returning();
 
   return c.json(article, 201);
 });
 
-// 記事更新
 app.patch(
   "/:id",
   sValidator("param", v.object({ id: articleSchema.entries.id })),
@@ -76,7 +72,7 @@ app.patch(
       where: eq(articles.id, id),
     });
 
-    if (!existing || existing.deletedAt) {
+    if (!existing) {
       throw new HTTPException(404, { message: "記事が見つかりません" });
     }
 
@@ -99,7 +95,6 @@ app.patch(
         publishedAt: isNewlyPublished
           ? new Date().toISOString()
           : existing.publishedAt,
-        deletedAt: null,
       })
       .where(eq(articles.id, id))
       .returning();
@@ -108,7 +103,6 @@ app.patch(
   },
 );
 
-// 記事削除（論理削除）
 app.delete(
   "/:id",
   sValidator("param", v.object({ id: articleSchema.entries.id })),
@@ -120,7 +114,7 @@ app.delete(
       where: eq(articles.id, id),
     });
 
-    if (!existing || existing.deletedAt) {
+    if (!existing) {
       throw new HTTPException(404, { message: "記事が見つかりません" });
     }
 
@@ -130,12 +124,9 @@ app.delete(
       });
     }
 
-    await db
-      .update(articles)
-      .set({ deletedAt: new Date().toISOString() })
-      .where(eq(articles.id, id));
+    await db.delete(articles).where(eq(articles.id, id));
 
-    return c.json({ message: "記事を削除しました" });
+    return c.json({ success: true });
   },
 );
 
