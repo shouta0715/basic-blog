@@ -5,3 +5,11 @@
 
 /* Path to the heroui-native lib inside node_modules from the root of your project */
 @source '../node_modules/heroui-native/lib';
+
+@theme {
+  --font-*: initial;
+  --font-normal: "ZenKakuGothicNew-Regular";
+  --font-bold: "ZenKakuGothicNew-Bold";
+
+  --font-weight-*: initial;
+}
