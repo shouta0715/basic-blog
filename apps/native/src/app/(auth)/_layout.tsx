@@ -1,7 +1,6 @@
 import { Stack, useRouter } from "expo-router";
 import { Button } from "heroui-native";
 import React from "react";
-import { Text } from "react-native";
 import { ChevronLeftIcon } from "@/components/icons/chevron-left";
 
 export default function Layout() {
@@ -12,9 +11,6 @@ export default function Layout() {
       screenOptions={{
         headerStyle: { backgroundColor: "transparent" },
         headerShadowVisible: false,
-        headerTitle: (props) => (
-          <Text className="text-lg font-bold">{props.children}</Text>
-        ),
       }}
     >
       <Stack.Screen name="sign-in" options={{ animation: "none", title: "" }} />
