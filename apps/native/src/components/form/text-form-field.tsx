@@ -15,7 +15,7 @@ function TextFormItem({
   return (
     <FormItemContext value={{ id }}>
       <TextField
-        className={className}
+        className={cn("text-sm font-normal", className)}
         isInvalid={!!error}
         nativeID={id}
         {...props}
@@ -34,7 +34,7 @@ function TextFormLabel({
 
   return (
     <TextField.Label
-      className={cn("text-sm", className)}
+      className={cn("text-sm font-normal", className)}
       nativeID={formItemId}
       {...props}
     />
@@ -51,7 +51,7 @@ function TextFieldDescription({
 
   return (
     <TextField.Description
-      className={cn("text-sm", className)}
+      className={cn("text-sm font-normal", className)}
       nativeID={formDescriptionId}
       {...props}
     />
@@ -76,7 +76,7 @@ function TextFieldErrorMessage({
 
   return (
     <TextField.ErrorMessage
-      className={cn("text-sm", className)}
+      className={cn("text-sm font-normal", className)}
       nativeID={formMessageId}
       {...props}
     >

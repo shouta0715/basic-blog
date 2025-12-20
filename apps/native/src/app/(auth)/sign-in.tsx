@@ -1,6 +1,7 @@
 import { Link, Redirect } from "expo-router";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { Text } from "@/components/native/text";
 import { SignInForm } from "@/features/auth/components/sign-in-form";
 import { useSession } from "@/lib/auth-client";
 
@@ -18,12 +19,16 @@ export default function SignIn() {
       showsVerticalScrollIndicator={false}
     >
       <View className="flex-1 gap-6 p-4">
-        <Text className="text-center text-2xl font-bold">ログイン</Text>
+        <Text bold className="text-center text-2xl">
+          ログイン
+        </Text>
         <SignInForm />
         <Text className="text-muted text-center text-sm">
           アカウントをお持ちでないですか？
           <Link asChild href="/sign-up">
-            <Text className="text-link font-semibold">新規登録</Text>
+            <Text bold className="text-link">
+              新規登録
+            </Text>
           </Link>
         </Text>
       </View>
