@@ -1,13 +1,14 @@
 import { UserSignUpSchema } from "@package/lib";
 import { useMutation } from "@tanstack/react-query";
 import { router } from "expo-router";
+import { useCommonAuthError } from "../hooks/use-common-auth-error";
 import { useToast } from "@/components/toast";
-import { getAuthErrorInfo } from "@/features/errors/auth/get-auth-error-info";
 import { authClient } from "@/lib/auth-client";
 import { notificationHaptics } from "@/lib/haptics";
 
 export function useSignUpMutation() {
   const { toast } = useToast();
+  const { handleAuthError } = useCommonAuthError();
 
   const { mutate, status } = useMutation({
     mutationFn: async (data: UserSignUpSchema) => {
@@ -26,24 +27,7 @@ export function useSignUpMutation() {
       });
       router.push("/");
     },
-    onError: (error) => {
-      console.error(error);
-
-      notificationHaptics.error();
-
-      if ("code" in error && typeof error.code === "string") {
-        const errorInfo = getAuthErrorInfo(error.code);
-        toast.error({
-          label: errorInfo.label,
-          description: errorInfo.description,
-        });
-      } else {
-        toast.error({
-          label: "不明なエラー",
-          description: `エラーが発生しました。\n時間をおいて再度お試しください。`,
-        });
-      }
-    },
+    onError: handleAuthError,
   });
 
   return { mutate, status };
