@@ -1,7 +1,6 @@
 import { UserSignUpSchema } from "@package/lib";
 import { useMutation } from "@tanstack/react-query";
 import { router } from "expo-router";
-import { useEffect, useRef } from "react";
 import { useToast } from "@/components/toast";
 import { getAuthErrorInfo } from "@/features/errors/auth/get-auth-error-info";
 import { authClient } from "@/lib/auth-client";
@@ -9,9 +8,8 @@ import { notificationHaptics } from "@/lib/haptics";
 
 export function useSignUpMutation() {
   const { toast } = useToast();
-  const timer = useRef<number | null>(null);
 
-  const { mutate, status, reset } = useMutation({
+  const { mutate, status } = useMutation({
     mutationFn: async (data: UserSignUpSchema) => {
       const { error } = await authClient.signUp.email({
         name: data.name,
@@ -33,11 +31,6 @@ export function useSignUpMutation() {
 
       notificationHaptics.error();
 
-      timer.current = setTimeout(() => {
-        reset();
-        timer.current = null;
-      }, 3000);
-
       if ("code" in error && typeof error.code === "string") {
         const errorInfo = getAuthErrorInfo(error.code);
         toast.error({
@@ -53,19 +46,5 @@ export function useSignUpMutation() {
     },
   });
 
-  useEffect(
-    () => () => {
-      if (timer.current) {
-        clearTimeout(timer.current);
-      }
-    },
-    [],
-  );
-
-  const resetError = () => {
-    reset();
-    timer.current = null;
-  };
-
-  return { mutate, status, resetError };
+  return { mutate, status };
 }

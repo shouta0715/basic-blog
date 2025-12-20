@@ -1,5 +1,5 @@
 import { UserSignUpSchema } from "@package/lib";
-import { Button, ButtonVariant, Spinner, useThemeColor } from "heroui-native";
+import { Button, Spinner, useThemeColor } from "heroui-native";
 import React from "react";
 import { FieldPath } from "react-hook-form";
 import { View } from "react-native";
@@ -24,7 +24,6 @@ export function SignUpForm() {
     isPasswordVisible,
     togglePasswordVisibility,
     status,
-    resetError,
   } = useSignUpForm();
 
   const spinnerColor = useThemeColor("accent-foreground");
@@ -160,10 +159,7 @@ export function SignUpForm() {
             layout={LinearTransition.springify()
               .dampingRatio(1.5)
               .duration(200)}
-            variant={match<typeof status, ButtonVariant>(status)
-              .with("error", () => "danger")
-              .otherwise(() => "primary")}
-            onPress={status === "error" ? resetError : handleSubmit}
+            onPress={handleSubmit}
           >
             {match(status)
               .with("pending", () => (
@@ -171,20 +167,15 @@ export function SignUpForm() {
                   <Spinner.Indicator animation={{ rotation: { speed: 2 } }} />
                 </Spinner>
               ))
-              .with("error", () => (
-                <Button.Label className="font-bold">
-                  エラーが発生しました
-                </Button.Label>
-              ))
-              .with("idle", () => (
-                <Button.Label className="font-bold">登録する</Button.Label>
-              ))
+
               .with("success", () => (
                 <Button.Label className="font-bold">
                   登録が完了しました
                 </Button.Label>
               ))
-              .exhaustive()}
+              .otherwise(() => (
+                <Button.Label className="font-bold">登録する</Button.Label>
+              ))}
           </Button>
         </View>
       </Form>

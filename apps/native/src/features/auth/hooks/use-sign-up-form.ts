@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useSignUpMutation } from "./use-sign-up-mutation";
 
 export function useSignUpForm() {
-  const { mutate, status, resetError } = useSignUpMutation();
+  const { mutate, status } = useSignUpMutation();
   const [isPasswordVisible, setIsPasswordVisible] = useState({
     password: false,
     confirmPassword: false,
@@ -36,6 +36,5 @@ export function useSignUpForm() {
     status,
     isPasswordVisible,
     togglePasswordVisibility,
-    resetError,
   };
 }
