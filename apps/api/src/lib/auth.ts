@@ -22,5 +22,8 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: false,
   },
-  advanced: { disableOriginCheck: true },
+  advanced: {
+    disableOriginCheck: true,
+    database: { generateId: () => crypto.randomUUID() },
+  },
 });
