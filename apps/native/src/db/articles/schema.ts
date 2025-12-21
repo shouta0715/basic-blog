@@ -1,5 +1,5 @@
 import * as v from "valibot";
-import { idSchema } from "./id";
+import { idSchema } from "../common/schema/id";
 
 export const articleStatusSchema = v.picklist([
   "draft",

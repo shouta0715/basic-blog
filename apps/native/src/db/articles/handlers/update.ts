@@ -1,5 +1,5 @@
-import { Article, articleSchema } from "@package/lib";
 import { UpdateMutationFn } from "@tanstack/react-db";
+import { Article, articleSchema } from "../schema";
 import { env } from "@/env/client";
 import { handleApiResponse } from "@/lib/api-response";
 import { authFetch } from "@/lib/auth-client";
