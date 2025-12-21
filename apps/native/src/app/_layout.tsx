@@ -10,7 +10,7 @@ export default function RootLayout() {
 
   return (
     <Providers>
-      <Stack>
+      <Stack screenOptions={{ headerShown: false, animation: "none" }}>
         <Stack.Protected guard={!!session}>
           <Stack.Screen name="(app)" />
         </Stack.Protected>

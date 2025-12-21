@@ -8,7 +8,8 @@ export const updateArticleHandler: UpdateMutationFn<Article> = async ({
   transaction,
 }) => {
   const updatedItems = transaction.mutations.map((mutation) => ({
-    ...mutation.modified,
+    ...mutation.original,
+    ...mutation.changes,
     id: mutation.original.id,
   }));
 
