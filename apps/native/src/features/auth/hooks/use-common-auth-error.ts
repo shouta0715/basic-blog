@@ -1,5 +1,5 @@
 import { useToast } from "@/components/toast";
-import { getAuthErrorInfo } from "@/features/errors/auth/get-auth-error-info";
+import { getAuthErrorInfo } from "@/lib/errors/auth/get-auth-error-info";
 import { notificationHaptics } from "@/lib/haptics";
 
 export function useCommonAuthError() {

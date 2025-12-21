@@ -17,3 +17,32 @@ const betterAuthClient = createAuthClient({
 export const authClient = betterAuthClient;
 
 export const { useSession } = betterAuthClient;
+
+export function authFetch(
+  input: RequestInfo | URL,
+  init?: RequestInit,
+): Promise<Response> {
+  const cookies = authClient.getCookie();
+  const headers = {
+    Cookie: cookies,
+  };
+
+  return fetch(input, {
+    ...init,
+    headers: {
+      ...init?.headers,
+      ...headers,
+    },
+    credentials: "omit",
+  });
+}
+
+export function useCurrentUser() {
+  const { data: session } = useSession();
+
+  if (!session) {
+    throw new Error("User not found");
+  }
+
+  return session.user;
+}

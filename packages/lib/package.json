@@ -15,6 +15,7 @@
     "valibot": "catalog:"
   },
   "devDependencies": {
+    "@types/node": "catalog:",
     "@package/eslint-config": "workspace:*",
     "@package/prettier-config": "workspace:*",
     "@package/typescript-config": "workspace:*",

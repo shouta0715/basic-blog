@@ -1,6 +1,6 @@
 {
   "name": "native",
-  "main": "expo-router/entry",
+  "main": "src/entry.ts",
   "version": "1.0.0",
   "scripts": {
     "dev": "expo start",

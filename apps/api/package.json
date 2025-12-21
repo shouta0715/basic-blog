@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.19.7",
+    "@hono/standard-validator": "^0.2.1",
     "@package/lib": "workspace:*",
     "@t3-oss/env-core": "^0.13.8",
     "better-auth": "catalog:",
@@ -22,7 +23,6 @@
     "drizzle-orm": "^0.44.7",
     "hono": "^4.9.0",
     "pg": "^8.16.3",
-    "ulid": "^3.0.1",
     "valibot": "catalog:"
   },
   "devDependencies": {

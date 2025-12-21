@@ -5,7 +5,6 @@ import {
   timestamp,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
-import { ulid } from "ulid";
 import { user } from "./users";
 
 export const articles = pgTable(
@@ -13,7 +12,7 @@ export const articles = pgTable(
   {
     id: text("id")
       .primaryKey()
-      .$defaultFn(() => ulid()),
+      .$defaultFn(() => crypto.randomUUID()),
     slug: text("slug").notNull(),
     title: text("title").notNull(),
     content: text("content").notNull(),
@@ -33,7 +32,6 @@ export const articles = pgTable(
       .notNull()
       .$defaultFn(() => new Date().toISOString())
       .$onUpdateFn(() => new Date().toISOString()),
-    deletedAt: timestamp("deleted_at", { mode: "string" }),
   },
   (table) => [
     uniqueIndex("articles_slug_idx").on(table.slug),

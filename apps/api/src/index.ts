@@ -7,6 +7,7 @@ import {
   corsMiddleware,
   sessionMiddleware,
 } from "./middleware/auth/auth-middleware";
+import { articlesRouter } from "./routers/articles";
 import { Env } from "@/types/env";
 
 const app = new Hono<Env>();
@@ -15,8 +16,7 @@ app.use("*", logger());
 app.use("*", corsMiddleware);
 app.use("*", sessionMiddleware);
 
-app.get("/", (c) => c.text("Hello Hono!"));
-
+app.route("/articles", articlesRouter);
 app.on(["POST", "GET"], "/api/auth/*", (c) => auth.handler(c.req.raw));
 
 const port = Number(process.env.PORT) || 8000;
