@@ -1,5 +1,19 @@
 import * as v from "valibot";
+import { idSchema } from "./id";
 
+const userSchemaValue = v.object({
+  id: idSchema,
+  name: v.pipe(v.string(), v.minLength(1, "名前は1文字以上で入力してください")),
+  email: v.pipe(v.string(), v.email("正しいメールアドレスを入力してください")),
+  emailVerified: v.boolean(),
+  image: v.nullable(v.pipe(v.string(), v.url())),
+  createdAt: v.string(),
+  updatedAt: v.string(),
+});
+
+export type User = v.InferOutput<typeof userSchemaValue>;
+
+// 認証用スキーマ
 const signUpSchema = v.pipe(
   v.object({
     name: v.pipe(
@@ -43,6 +57,7 @@ type UserSignInSchema = v.InferInput<typeof signInSchema>;
 const userSchema = {
   signUp: signUpSchema,
   signIn: signInSchema,
+  value: userSchemaValue,
 };
 
 export { userSchema };
