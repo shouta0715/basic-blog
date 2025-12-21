@@ -15,6 +15,7 @@
     "@better-auth/expo": "^1.4.5",
     "@expo/vector-icons": "^15.0.3",
     "@hookform/resolvers": "^5.2.2",
+    "@legendapp/list": "^2.0.18",
     "@package/lib": "workspace:*",
     "@react-navigation/bottom-tabs": "^7.4.0",
     "@react-navigation/elements": "^2.6.3",
