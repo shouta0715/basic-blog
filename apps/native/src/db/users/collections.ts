@@ -1,4 +1,3 @@
-import { userSchema } from "@package/lib";
 import { queryCollectionOptions } from "@tanstack/query-db-collection";
 import {
   createCollection,
@@ -6,6 +5,7 @@ import {
   eq,
 } from "@tanstack/react-db";
 import { queryUserHandler } from "./handlers/query";
+import { userSchema } from "./schema";
 import { queryClient } from "@/lib/query-client";
 
 export const userCollection = createCollection(
@@ -15,7 +15,7 @@ export const userCollection = createCollection(
     queryFn: queryUserHandler,
     getKey: (user) => user.id,
     queryClient: queryClient,
-    schema: userSchema.value,
+    schema: userSchema,
   }),
 );
 
