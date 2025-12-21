@@ -1,5 +1,5 @@
+import { idSchema } from "@package/lib";
 import * as v from "valibot";
-import { idSchema } from "../common/schema/id";
 
 export const articleStatusSchema = v.picklist([
   "draft",
@@ -10,7 +10,7 @@ export const articleStatusSchema = v.picklist([
 const slugSchema = v.pipe(v.string(), v.slug());
 
 export const articleSchema = v.object({
-  id: idSchema,
+  id: v.optional(idSchema, () => crypto.randomUUID()),
   slug: slugSchema,
   title: v.pipe(
     v.string(),

@@ -1,8 +1,8 @@
+import { idSchema } from "@package/lib";
 import * as v from "valibot";
-import { idSchema } from "../common/schema/id";
 
 export const userSchema = v.object({
-  id: idSchema,
+  id: v.optional(idSchema, () => crypto.randomUUID()),
   name: v.pipe(v.string(), v.minLength(1, "名前は1文字以上で入力してください")),
   email: v.pipe(v.string(), v.email("正しいメールアドレスを入力してください")),
   emailVerified: v.boolean(),

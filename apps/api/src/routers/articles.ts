@@ -1,11 +1,12 @@
 import { sValidator } from "@hono/standard-validator";
-import { articleSchema } from "@package/lib";
+import { BoolResult, idSchema } from "@package/lib";
 import { eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import * as v from "valibot";
 import { articles } from "@/db/schemas";
 import { db } from "@/lib/db";
+import { articleSchema } from "@/schema/articles";
 import { Env } from "@/types/env";
 
 const app = new Hono<Env>();
@@ -16,25 +17,21 @@ app.get("/", async (c) => {
   return c.json(result);
 });
 
-app.get(
-  "/:id",
-  sValidator("param", v.object({ id: articleSchema.entries.id })),
-  async (c) => {
-    const { id } = c.req.valid("param");
+app.get("/:id", sValidator("param", v.object({ id: idSchema })), async (c) => {
+  const { id } = c.req.valid("param");
 
-    const article = await db.query.articles.findFirst({
-      where: eq(articles.id, id),
-    });
+  const article = await db.query.articles.findFirst({
+    where: eq(articles.id, id),
+  });
 
-    if (!article) {
-      throw new HTTPException(404, { message: "記事が見つかりません" });
-    }
+  if (!article) {
+    throw new HTTPException(404, { message: "記事が見つかりません" });
+  }
 
-    return c.json(article);
-  },
-);
+  return c.json(article);
+});
 
-app.post("/", sValidator("json", articleSchema), async (c) => {
+app.post("/", sValidator("json", articleSchema.insert), async (c) => {
   const user = c.get("user");
   const data = c.req.valid("json");
 
@@ -61,8 +58,8 @@ app.post("/", sValidator("json", articleSchema), async (c) => {
 
 app.patch(
   "/:id",
-  sValidator("param", v.object({ id: articleSchema.entries.id })),
-  sValidator("json", articleSchema),
+  sValidator("param", v.object({ id: idSchema })),
+  sValidator("json", articleSchema.update),
   async (c) => {
     const user = c.get("user");
     const { id } = c.req.valid("param");
@@ -105,7 +102,7 @@ app.patch(
 
 app.delete(
   "/:id",
-  sValidator("param", v.object({ id: articleSchema.entries.id })),
+  sValidator("param", v.object({ id: idSchema })),
   async (c) => {
     const user = c.get("user");
     const { id } = c.req.valid("param");
@@ -126,7 +123,7 @@ app.delete(
 
     await db.delete(articles).where(eq(articles.id, id));
 
-    return c.json({ success: true });
+    return c.json<BoolResult>({ success: true });
   },
 );
 
