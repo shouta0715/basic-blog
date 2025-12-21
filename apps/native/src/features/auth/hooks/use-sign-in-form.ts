@@ -1,9 +1,9 @@
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { userSchema } from "@package/lib";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSignInMutation } from "../api/use-sign-in-mutation";
+import { authSchema } from "../schema";
 import { useCommonAuthError } from "./use-common-auth-error";
 import { useToast } from "@/components/toast";
 import { notificationHaptics } from "@/lib/haptics";
@@ -30,7 +30,7 @@ export function useSignInForm() {
   const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev);
 
   const form = useForm({
-    resolver: valibotResolver(userSchema.signIn),
+    resolver: valibotResolver(authSchema.signIn),
     defaultValues: {
       email: "",
       password: "",

@@ -1,4 +1,3 @@
-import { UserSignUpSchema } from "@package/lib";
 import { Button, Spinner, useThemeColor } from "heroui-native";
 import React from "react";
 import { FieldPath } from "react-hook-form";
@@ -6,6 +5,7 @@ import { View } from "react-native";
 import { LinearTransition } from "react-native-reanimated";
 import { match } from "ts-pattern";
 import { useSignUpForm } from "../hooks/use-sign-up-form";
+import { SignUpSchema } from "../schema";
 import { PasswordToggleButton } from "./password-toggle-button";
 import { Form, FormController } from "@/components/form/form-filed";
 import {
@@ -29,7 +29,7 @@ export function SignUpForm() {
 
   const spinnerColor = useThemeColor("accent-foreground");
 
-  const onFocusNextInput = (nextInputName: FieldPath<UserSignUpSchema>) => () =>
+  const onFocusNextInput = (nextInputName: FieldPath<SignUpSchema>) => () =>
     form.setFocus(nextInputName);
 
   const isPending = status === "pending";
