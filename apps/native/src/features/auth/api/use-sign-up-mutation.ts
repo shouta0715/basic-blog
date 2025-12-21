@@ -1,5 +1,5 @@
-import { UserSignUpSchema } from "@package/lib";
 import { useMutation } from "@tanstack/react-query";
+import { SignUpSchema } from "../schema";
 import { authClient } from "@/lib/auth-client";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 
 export function useSignUpMutation({ onSuccess, onError }: Props) {
   const { mutate, status } = useMutation({
-    mutationFn: async (data: UserSignUpSchema) => {
+    mutationFn: async (data: SignUpSchema) => {
       const { error } = await authClient.signUp.email({
         name: data.name,
         email: data.email,

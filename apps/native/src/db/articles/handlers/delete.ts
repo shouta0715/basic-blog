@@ -1,6 +1,6 @@
-import { Article } from "@package/lib";
+import { boolResultSchema } from "@package/lib";
 import { DeleteMutationFn } from "@tanstack/react-db";
-import * as v from "valibot";
+import { Article } from "../schema";
 import { env } from "@/env/client";
 import { handleApiResponse } from "@/lib/api-response";
 import { authFetch } from "@/lib/auth-client";
@@ -20,7 +20,7 @@ export const deleteArticleHandler: DeleteMutationFn<Article> = async ({
         },
       );
 
-      return handleApiResponse(res, v.object({ success: v.boolean() }));
+      return handleApiResponse(res, boolResultSchema);
     }),
   );
 

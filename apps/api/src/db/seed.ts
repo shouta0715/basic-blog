@@ -1,10 +1,230 @@
 import "dotenv/config";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
+import * as v from "valibot";
 import * as schemas from "./schemas";
 import { env } from "@/env";
+import { articleSchema, ArticleInsertPayload } from "@/schema/articles";
 
 const { user, articles, tags, articleTags, articleLikes } = schemas;
+
+// ランダムな要素を取得
+function randomPick<T>(arr: T[]): T {
+  const index = Math.floor(Math.random() * arr.length);
+  const item = arr[index];
+
+  if (item === undefined) {
+    throw new Error("Array is empty");
+  }
+
+  return item;
+}
+
+// ランダムな複数要素を取得（重複なし）
+function randomPickMultiple<T>(arr: T[], count: number): T[] {
+  const shuffled = [...arr].sort(() => Math.random() - 0.5);
+
+  return shuffled.slice(0, Math.min(count, arr.length));
+}
+
+// ランダムな日付を生成（過去n日以内）
+function randomDate(daysAgo: number): string {
+  const now = Date.now();
+  const randomMs = Math.floor(Math.random() * daysAgo * 24 * 60 * 60 * 1000);
+
+  return new Date(now - randomMs).toISOString();
+}
+
+// 記事タイトルのテンプレート
+const titleTemplates = [
+  "{tech}入門：初心者向けガイド",
+  "{tech}のベストプラクティス 2024",
+  "{tech}で{action}する方法",
+  "なぜ{tech}を使うべきなのか",
+  "{tech}と{tech2}の比較",
+  "{tech}のパフォーマンス最適化",
+  "{tech}でよくあるミス10選",
+  "{tech}の最新機能まとめ",
+  "プロが教える{tech}の使い方",
+  "{tech}で{project}を作ろう",
+  "{tech}のセキュリティ対策",
+  "{tech}のテスト戦略",
+  "{tech}でCIを構築する",
+  "{tech}の設計パターン",
+  "実践{tech}：{project}開発",
+];
+
+const techWords = [
+  "React",
+  "TypeScript",
+  "Node.js",
+  "Next.js",
+  "Vue.js",
+  "Rust",
+  "Go",
+  "Python",
+  "PostgreSQL",
+  "MongoDB",
+  "GraphQL",
+  "REST API",
+  "Docker",
+  "Kubernetes",
+  "AWS",
+  "Terraform",
+  "Redis",
+  "Prisma",
+  "Drizzle",
+  "Hono",
+];
+
+const actionWords = [
+  "開発",
+  "デプロイ",
+  "テスト",
+  "デバッグ",
+  "最適化",
+  "スケール",
+  "モニタリング",
+  "自動化",
+];
+
+const projectWords = [
+  "ブログ",
+  "ECサイト",
+  "チャットアプリ",
+  "TODO管理",
+  "ダッシュボード",
+  "API",
+  "CLI",
+  "認証システム",
+];
+
+// タイトルを生成
+function generateTitle(): string {
+  const template = randomPick(titleTemplates);
+
+  return template
+    .replace("{tech}", randomPick(techWords))
+    .replace("{tech2}", randomPick(techWords))
+    .replace("{action}", randomPick(actionWords))
+    .replace("{project}", randomPick(projectWords));
+}
+
+// slugを生成
+function generateSlug(title: string, index: number): string {
+  const base = title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .slice(0, 30);
+
+  return `${base}-${index}`;
+}
+
+// コンテンツを生成
+function generateContent(title: string): string {
+  const tech = randomPick(techWords);
+
+  return `# ${title}
+
+この記事では、${tech}について詳しく解説します。
+
+## はじめに
+
+${tech}は現代のソフトウェア開発において重要な技術です。
+この記事を読むことで、基本的な概念から実践的な使い方まで学ぶことができます。
+
+## 基本概念
+
+${tech}を使い始める前に、いくつかの基本概念を理解しておく必要があります。
+
+### セットアップ
+
+\`\`\`bash
+# インストールコマンド
+npm install ${tech.toLowerCase().replace(/\s+/g, "-")}
+\`\`\`
+
+## 実装例
+
+以下は基本的な実装例です：
+
+\`\`\`typescript
+// サンプルコード
+function example() {
+  console.log("Hello, ${tech}!");
+  return { success: true };
+}
+\`\`\`
+
+## ベストプラクティス
+
+1. **コードの可読性** - 常に読みやすいコードを心がけましょう
+2. **テストの重要性** - ユニットテストを書く習慣をつけましょう
+3. **ドキュメント** - 適切なコメントとドキュメントを残しましょう
+
+## まとめ
+
+${tech}は非常に強力なツールです。
+この記事で紹介した内容を参考に、ぜひ実際のプロジェクトで活用してみてください。
+
+## 参考リンク
+
+- [公式ドキュメント](https://example.com)
+- [チュートリアル](https://example.com/tutorial)
+`;
+}
+
+// ユーザー名を生成
+const firstNames = [
+  "Yuki",
+  "Hana",
+  "Taro",
+  "Sakura",
+  "Kenji",
+  "Mika",
+  "Ryo",
+  "Emi",
+  "Takeshi",
+  "Naomi",
+  "Shota",
+  "Ai",
+  "Kento",
+  "Yui",
+  "Daiki",
+];
+
+const lastNames = [
+  "Tanaka",
+  "Yamamoto",
+  "Suzuki",
+  "Sato",
+  "Watanabe",
+  "Ito",
+  "Nakamura",
+  "Kobayashi",
+  "Kato",
+  "Yoshida",
+];
+
+// タグデータ
+const tagData = [
+  { name: "React", slug: "react" },
+  { name: "TypeScript", slug: "typescript" },
+  { name: "Node.js", slug: "nodejs" },
+  { name: "Next.js", slug: "nextjs" },
+  { name: "Vue.js", slug: "vuejs" },
+  { name: "Database", slug: "database" },
+  { name: "Web Development", slug: "web-development" },
+  { name: "DevOps", slug: "devops" },
+  { name: "Testing", slug: "testing" },
+  { name: "Performance", slug: "performance" },
+  { name: "Security", slug: "security" },
+  { name: "API Design", slug: "api-design" },
+  { name: "Frontend", slug: "frontend" },
+  { name: "Backend", slug: "backend" },
+  { name: "Cloud", slug: "cloud" },
+];
 
 async function seed() {
   const pool = new Pool({
@@ -24,227 +244,127 @@ async function seed() {
     await db.delete(tags);
     await db.delete(user);
 
-    // Seed Users
+    // Seed Users (10人)
     console.info("👤 Creating users...");
-    const createdUsers = await db
-      .insert(user)
-      .values([
-        {
-          id: crypto.randomUUID(),
-          name: "Alice Johnson",
-          email: "alice@example.com",
-          emailVerified: true,
-          image: "https://i.pravatar.cc/150?img=1",
-        },
-        {
-          id: crypto.randomUUID(),
-          name: "Bob Smith",
-          email: "bob@example.com",
-          emailVerified: true,
-          image: "https://i.pravatar.cc/150?img=2",
-        },
-        {
-          id: crypto.randomUUID(),
-          name: "Charlie Brown",
-          email: "charlie@example.com",
-          emailVerified: false,
-          image: "https://i.pravatar.cc/150?img=3",
-        },
-      ])
-      .returning();
+    const userData = Array.from({ length: 10 }, (_, i) => ({
+      id: crypto.randomUUID(),
+      name: `${randomPick(firstNames)} ${randomPick(lastNames)}`,
+      email: `user${i + 1}@example.com`,
+      emailVerified: Math.random() > 0.3,
+      image: `https://i.pravatar.cc/150?img=${(i % 70) + 1}`,
+    }));
 
-    if (
-      createdUsers.length !== 3 ||
-      !createdUsers[0] ||
-      !createdUsers[1] ||
-      !createdUsers[2]
-    ) {
-      throw new Error("Failed to create users");
-    }
-    const user1 = createdUsers[0];
-    const user2 = createdUsers[1];
-    const user3 = createdUsers[2];
-
+    const createdUsers = await db.insert(user).values(userData).returning();
     console.info(`✅ Created ${createdUsers.length} users`);
 
-    // Seed Tags
+    // Seed Tags (15個)
     console.info("🏷️  Creating tags...");
-    const createdTags = await db
-      .insert(tags)
-      .values([
-        { name: "React", slug: "react" },
-        { name: "TypeScript", slug: "typescript" },
-        { name: "Node.js", slug: "nodejs" },
-        { name: "Database", slug: "database" },
-        { name: "Web Development", slug: "web-development" },
-      ])
-      .returning();
-
-    if (
-      createdTags.length !== 5 ||
-      !createdTags[0] ||
-      !createdTags[1] ||
-      !createdTags[2] ||
-      !createdTags[3] ||
-      !createdTags[4]
-    ) {
-      throw new Error("Failed to create tags");
-    }
-    const tagReact = createdTags[0];
-    const tagTypeScript = createdTags[1];
-    const tagNode = createdTags[2];
-    const tagDB = createdTags[3];
-    const tagWeb = createdTags[4];
-
+    const createdTags = await db.insert(tags).values(tagData).returning();
     console.info(`✅ Created ${createdTags.length} tags`);
 
-    // Seed Articles
+    // Seed Articles (100件)
     console.info("📝 Creating articles...");
+    const articleData = Array.from({ length: 100 }, (_, i) => {
+      const title = generateTitle();
+      const status = randomPick([
+        "published",
+        "published",
+        "published",
+        "draft",
+      ] as const);
+      const author = randomPick(createdUsers);
+
+      const payload: ArticleInsertPayload = {
+        id: crypto.randomUUID(),
+        slug: generateSlug(title, i + 1),
+        title,
+        content: generateContent(title),
+        coverImageUrl: `https://picsum.photos/seed/article${i + 1}/800/400`,
+        authorId: author.id,
+        status,
+      };
+
+      // スキーマでバリデーション（変更があればエラーになる）
+      const validated = v.parse(articleSchema.insert, payload);
+
+      return {
+        ...validated,
+        publishedAt: status === "published" ? randomDate(90) : null,
+      };
+    });
+
     const createdArticles = await db
       .insert(articles)
-      .values([
-        {
-          slug: "getting-started-with-react",
-          title: "React入門：初めてのコンポーネント作成",
-          content: `# React入門
-
-Reactは、Facebook（現Meta）が開発したUIライブラリです。
-
-## コンポーネントの作成
-
-\`\`\`tsx
-function Welcome() {
-  return <h1>Hello, React!</h1>;
-}
-\`\`\`
-
-このように、簡単にコンポーネントを作成できます。`,
-          coverImageUrl: "https://picsum.photos/seed/react1/800/400",
-          authorId: user1.id,
-          status: "published",
-          publishedAt: new Date(
-            Date.now() - 7 * 24 * 60 * 60 * 1000,
-          ).toISOString(),
-        },
-        {
-          slug: "typescript-best-practices",
-          title: "TypeScript のベストプラクティス 2024",
-          content: `# TypeScript ベストプラクティス
-
-TypeScriptを使った開発で役立つベストプラクティスを紹介します。
-
-## 型定義を明示的に
-
-\`\`\`typescript
-// Good
-function greet(name: string): string {
-  return \`Hello, \${name}!\`;
-}
-
-// Bad
-function greet(name) {
-  return \`Hello, \${name}!\`;
-}
-\`\`\``,
-          coverImageUrl: "https://picsum.photos/seed/ts1/800/400",
-          authorId: user1.id,
-          status: "published",
-          publishedAt: new Date(
-            Date.now() - 3 * 24 * 60 * 60 * 1000,
-          ).toISOString(),
-        },
-        {
-          slug: "nodejs-api-development",
-          title: "Node.jsでREST APIを作ろう",
-          content: `# Node.js REST API開発
-
-Node.jsを使ってRESTful APIを作成する方法を解説します。
-
-## Expressの基本
-
-\`\`\`javascript
-import express from 'express';
-
-const app = express();
-
-app.get('/api/hello', (req, res) => {
-  res.json({ message: 'Hello, World!' });
-});
-\`\`\``,
-          coverImageUrl: "https://picsum.photos/seed/node1/800/400",
-          authorId: user2.id,
-          status: "published",
-          publishedAt: new Date(
-            Date.now() - 5 * 24 * 60 * 60 * 1000,
-          ).toISOString(),
-        },
-        {
-          slug: "database-design-tips",
-          title: "データベース設計のコツ",
-          content: `# データベース設計
-
-効率的なデータベース設計のポイントをまとめました。
-
-## 正規化について
-
-データベースの正規化は、データの冗長性を排除し、整合性を保つための重要な手法です。`,
-          coverImageUrl: "https://picsum.photos/seed/db1/800/400",
-          authorId: user2.id,
-          status: "draft",
-        },
-      ])
+      .values(articleData)
       .returning();
-
-    if (
-      createdArticles.length !== 4 ||
-      !createdArticles[0] ||
-      !createdArticles[1] ||
-      !createdArticles[2] ||
-      !createdArticles[3]
-    ) {
-      throw new Error("Failed to create articles");
-    }
-    const article1 = createdArticles[0];
-    const article2 = createdArticles[1];
-    const article3 = createdArticles[2];
-    const article4 = createdArticles[3];
-
     console.info(`✅ Created ${createdArticles.length} articles`);
 
-    // Seed Article Tags
+    // Seed Article Tags (各記事に1-4個のタグ)
     console.info("🔗 Creating article-tag relationships...");
-    await db.insert(articleTags).values([
-      { articleId: article1.id, tagId: tagReact.id },
-      { articleId: article1.id, tagId: tagWeb.id },
-      { articleId: article2.id, tagId: tagTypeScript.id },
-      { articleId: article2.id, tagId: tagWeb.id },
-      { articleId: article3.id, tagId: tagNode.id },
-      { articleId: article3.id, tagId: tagWeb.id },
-      { articleId: article4.id, tagId: tagDB.id },
-    ]);
+    const articleTagData: { articleId: string; tagId: string }[] = [];
 
-    console.info("✅ Created article-tag relationships");
+    for (const article of createdArticles) {
+      const tagCount = Math.floor(Math.random() * 4) + 1;
+      const selectedTags = randomPickMultiple(createdTags, tagCount);
 
-    // Seed Article Likes
+      for (const tag of selectedTags) {
+        articleTagData.push({
+          articleId: article.id,
+          tagId: tag.id,
+        });
+      }
+    }
+
+    await db.insert(articleTags).values(articleTagData);
+    console.info(
+      `✅ Created ${articleTagData.length} article-tag relationships`,
+    );
+
+    // Seed Article Likes (各記事に0-5個のいいね)
     console.info("❤️  Creating article likes...");
-    await db.insert(articleLikes).values([
-      { articleId: article1.id, userId: user2.id },
-      { articleId: article1.id, userId: user3.id },
-      { articleId: article2.id, userId: user2.id },
-      { articleId: article2.id, userId: user3.id },
-      { articleId: article3.id, userId: user1.id },
-      { articleId: article3.id, userId: user3.id },
-    ]);
+    const articleLikeData: { articleId: string; userId: string }[] = [];
+    const likeSet = new Set<string>();
 
-    console.info("✅ Created article likes");
+    for (const article of createdArticles) {
+      // 記事の作者以外からランダムにいいね
+      const otherUsers = createdUsers.filter((u) => u.id !== article.authorId);
+      const likeCount = Math.floor(Math.random() * 6);
+      const likers = randomPickMultiple(otherUsers, likeCount);
+
+      for (const liker of likers) {
+        const key = `${article.id}-${liker.id}`;
+        if (!likeSet.has(key)) {
+          likeSet.add(key);
+          articleLikeData.push({
+            articleId: article.id,
+            userId: liker.id,
+          });
+        }
+      }
+    }
+
+    if (articleLikeData.length > 0) {
+      await db.insert(articleLikes).values(articleLikeData);
+    }
+    console.info(`✅ Created ${articleLikeData.length} article likes`);
+
+    // サマリー計算
+    const publishedCount = createdArticles.filter(
+      (a) => a.status === "published",
+    ).length;
+    const draftCount = createdArticles.filter(
+      (a) => a.status === "draft",
+    ).length;
 
     console.info("\n🎉 Seed completed successfully!");
     console.info("\n📊 Summary:");
-    console.info(`   Users: 3`);
-    console.info(`   Articles: 4 (3 published, 1 draft)`);
-    console.info(`   Tags: 5`);
-    console.info(`   Article-Tag relations: 7`);
-    console.info(`   Likes: 6`);
+    console.info(`   Users: ${createdUsers.length}`);
+    console.info(
+      `   Articles: ${createdArticles.length} (${publishedCount} published, ${draftCount} draft)`,
+    );
+    console.info(`   Tags: ${createdTags.length}`);
+    console.info(`   Article-Tag relations: ${articleTagData.length}`);
+    console.info(`   Likes: ${articleLikeData.length}`);
   } catch (error) {
     console.error("❌ Error during seed:", error);
     throw error;
